@@ -4,6 +4,7 @@
     "description": "",
     "main": "webpack.config.js",
     "dependencies": {
+        "@sentry/browser": "^5.15.5",
         "bootstrap": "^3.3.7",
         "bootstrap-loader": "^1.1.6",
         "bootstrap-webpack": "0.0.5",

@@ -1,7 +1,10 @@
 import React from 'react';
-import GameBoard from './GameBoard.jsx'
 import ReactDOM from 'react-dom'
+import * as Sentry from '@sentry/browser';
+import GameBoard from './GameBoard.jsx'
 import $ from 'jquery'
+
+Sentry.init({dsn: "https://1295e0eabb06407d87a710850f4c5540@o374711.ingest.sentry.io/5236901"});
 
 let current_user = null
 const game = $("#game_component").data("game")

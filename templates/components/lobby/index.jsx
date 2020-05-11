@@ -1,7 +1,10 @@
 import React from 'react';
-import LobbyBase from './LobbyBase.jsx'
 import ReactDOM from 'react-dom'
+import * as Sentry from '@sentry/browser';
+import LobbyBase from './LobbyBase.jsx'
 import $ from 'jquery'
+
+Sentry.init({dsn: "https://1295e0eabb06407d87a710850f4c5540@o374711.ingest.sentry.io/5236901"});
 
 var lobby_sock = 'ws://' + window.location.host + "/lobby/"
 var current_user = null
