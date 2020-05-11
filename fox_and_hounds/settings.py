@@ -1,4 +1,12 @@
 import os
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="https://4d268db239ec4e1cb0c5f9f84d799053@o374711.ingest.sentry.io/5236883",
+    integrations=[DjangoIntegration()],
+    send_default_pii=True
+)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("SECRET_KEY")
