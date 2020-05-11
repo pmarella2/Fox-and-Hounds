@@ -10,18 +10,7 @@ from rest_framework.routers import DefaultRouter
 from game.views import *
 from users import views as user_views
 
-from django.urls import path
-
-def trigger_error(request):
-    division_by_zero = 1 / 0
-
 urlpatterns = [
-    path('sentry-debug/', trigger_error),
-    # ...
-]
-
-
-urlpatterns += [
     path("admin/", include("admin_honeypot.urls", namespace="admin_honeypot")),
     path("foxmin/", admin.site.urls),
     path("register/", user_views.register, name="register"),
