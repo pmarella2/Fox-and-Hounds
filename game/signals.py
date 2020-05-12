@@ -1,8 +1,7 @@
 from django.dispatch import receiver
 from game.models import *
 from channels import Group
-from django.dispatch import receiver
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save
 from .serializers import *
 from .models import Game, GameSquare, GameLog
 import json
