@@ -65,6 +65,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "fox_and_hounds.wsgi.application"
+ASGI_APPLICATION = "fox_and_hounds.routing.application"
 
 DATABASES = {
     "default": {
@@ -72,24 +73,22 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-
+"""
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgiref.inmemory.ChannelLayer",
         "ROUTING": "fox_and_hounds.routing.channel_routing",
     },
 }
-'''
+"""
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgi_redis.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("localhost", 6379)],
-        },
+        "CONFIG": {"hosts": [("localhost", 6379)],},
         "ROUTING": "fox_and_hounds.routing.channel_routing",
+        "symmetric_encryption_keys": [SECRET_KEY],
     },
 }
-'''
 
 AUTH_PASSWORD_VALIDATORS = [
     {
