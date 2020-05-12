@@ -52,6 +52,7 @@ class LobbyBase extends React.Component {
     }
 
     render() {
+        console.log(this.props.socket)
         return (
             <div className="row">
                 <div className="col-lg-5">

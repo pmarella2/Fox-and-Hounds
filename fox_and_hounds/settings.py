@@ -108,7 +108,7 @@ EMAIL_HOST_PASSWORD = os.environ.get("GMAIL_PASS")
 #SECURE_CONTENT_TYPE_NOSNIFF = True
 #SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-CSP_DEFAULT_SRC = ("'self'",)
+CSP_DEFAULT_SRC = ("'self'", "https://o374711.ingest.sentry.io", "ws://localhost:8080",)
 CSP_STYLE_SRC = (
     "'self'",
     "https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css",

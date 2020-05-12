@@ -283,9 +283,11 @@ class GameSquare(models.Model):
             if won and winner == "fox":
                 self.game.mark_complete(winner=self.game.creator)
                 self.game.update_game_status(game_over=True)
+                self.game.add_log("{0} won the game!".format(self.game.creator))
             elif won and winner == "hound":
                 self.game.mark_complete(winner=self.game.opponent)
                 self.game.update_game_status(game_over=True)
+                self.game.add_log("{0} won the game!".format(self.game.opponent))
             else:
                 self.game.next_player_turn()
 
