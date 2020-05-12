@@ -6,7 +6,7 @@ autopep8==1.2.4
 black==19.10b0
 certifi==2020.4.5.1
 cffi==1.14.0
-channels==0.17.2
+channels @ git+https://github.com/pmarella2/channels.git@b61d2ef45975eb83b6706f99f5f7fa498a9f866e
 click==7.1.2
 cryptography==2.9.2
 daphne==0.15.0
