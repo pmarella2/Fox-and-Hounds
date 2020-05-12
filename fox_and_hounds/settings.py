@@ -30,10 +30,12 @@ INSTALLED_APPS = [
     "sslserver",
     "django_otp",
     "django_otp.plugins.otp_totp",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     "fox_and_hounds.middleware.RestrictStaffToAdminMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django_session_timeout.middleware.SessionTimeoutMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -43,10 +45,14 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django_otp.middleware.OTPMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "csp.middleware.CSPMiddleware",
+    # "csp.middleware.CSPMiddleware",
 ]
 
 ROOT_URLCONF = "fox_and_hounds.urls"
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:8080"
+]
 
 TEMPLATES = [
     {
@@ -73,7 +79,7 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-"""
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgiref.inmemory.ChannelLayer",
@@ -89,7 +95,7 @@ CHANNEL_LAYERS = {
         "symmetric_encryption_keys": [SECRET_KEY],
     },
 }
-
+"""
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -125,8 +131,8 @@ EMAIL_HOST_PASSWORD = os.environ.get("GMAIL_PASS")
 
 CSP_DEFAULT_SRC = (
     "'self'",
-    "https://o374711.ingest.sentry.io",
-    "ws://localhost:8080",
+    "https://o374711.ingest.sentry.io/",
+    "https://cbd65947.ngrok.io/",
 )
 CSP_STYLE_SRC = (
     "'self'",
