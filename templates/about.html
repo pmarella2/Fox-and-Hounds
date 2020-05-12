@@ -1,4 +1,34 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>About the game: Fox and Hounds</h1>
+<h1>About the game: Fox and Hounds</h1>
+<p>
+    Fox and Hounds is played on an 8×8 chess/checkerboard and only the dark squares are used (in our case the grass aka
+    green squares). The four hounds are initially placed on the dark squares at one edge of the board; the fox is placed
+    on any dark square on the opposite edge. The objective of the fox is to cross from one side of the board to the
+    other, arriving at any one of the hounds' original squares. The hounds' objective is to prevent the fox from doing
+    so by trapping it.
+</p>
+<h3>Game Rules:</h3>
+<p>
+    The hounds can only move diagonally forward one square. The fox can move diagonally
+    forward or backward one square. There is no jumping/eliminating/promoting of pieces in this game. The game starts
+    with the fox moving first. The player controlling the hounds may move only one of them each turn.
+    The fox is trapped when it can no longer move to a vacant square. It is possible for two hounds to trap the fox
+    against an edge of the board (other than their original home-row) or even one corner where a single
+    hound may do the trapping. Should a hound reach the fox's original home row it will be unable to move further.
+</p>
+<h3>How to Play (our implementation):</h3>
+<h6>Setup</h6>
+<ol>
+    <li>Login/Register an account</li>
+    <li>Go to the home/lobby page</li>
+    <li>Click on "Start a New Game"</li>
+    <li>Click on the Join/Waiting... button next to your newly created game</li>
+    <li>Once a opponent joins, the game starts</li>
+</ol>
+<h6>Playing</h6>
+<ol>
+    <li>Click on the square you want to move (It should be highlighted blue)</li>
+    <li>Then click on the square you want to move to</li>
+</ol>
 {% endblock content %}
