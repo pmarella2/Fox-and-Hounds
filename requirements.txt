@@ -15,6 +15,7 @@ django-admin-honeypot==1.1.0
 django-crispy-forms==1.9.0
 django-csp==3.6
 django-otp==0.9.1
+django-session-timeout==0.1.0
 django-sslserver==0.22
 django-webpack-loader==0.6.0
 djangorestframework==3.9.1

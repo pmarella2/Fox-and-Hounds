@@ -34,6 +34,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "fox_and_hounds.middleware.RestrictStaffToAdminMiddleware",
+    "django_session_timeout.middleware.SessionTimeoutMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -78,6 +79,17 @@ CHANNEL_LAYERS = {
         "ROUTING": "fox_and_hounds.routing.channel_routing",
     },
 }
+'''
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+        "ROUTING": "fox_and_hounds.routing.channel_routing",
+    },
+}
+'''
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -90,6 +102,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 OTP_TOTP_ISSUER = "Fox and Hounds"
 
+SESSION_EXPIRE_SECONDS = 240
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+SESSION_TIMEOUT_REDIRECT = "game-home"
+
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
@@ -97,18 +113,22 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get("GMAIL_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("GMAIL_PASS")
 
-#CSRF_COOKIE_SECURE = True
-#SESSION_COOKIE_SECURE = True
-#SECURE_HSTS_SECONDS = 31556952
-#SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-#SECURE_HSTS_PRELOAD = True
-#SECURE_SSL_REDIRECT = True
-#SECURE_REFERRER_POLICY = "same-origin"
-#SECURE_BROWSER_XSS_FILTER = True
-#SECURE_CONTENT_TYPE_NOSNIFF = True
-#SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
+# SECURE_HSTS_SECONDS = 31556952
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
+# SECURE_SSL_REDIRECT = True
+# SECURE_REFERRER_POLICY = "same-origin"
+# SECURE_BROWSER_XSS_FILTER = True
+# SECURE_CONTENT_TYPE_NOSNIFF = True
+# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-CSP_DEFAULT_SRC = ("'self'", "https://o374711.ingest.sentry.io", "ws://localhost:8080",)
+CSP_DEFAULT_SRC = (
+    "'self'",
+    "https://o374711.ingest.sentry.io",
+    "ws://localhost:8080",
+)
 CSP_STYLE_SRC = (
     "'self'",
     "https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css",
