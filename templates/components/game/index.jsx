@@ -8,6 +8,8 @@ Sentry.init({dsn: "https://1295e0eabb06407d87a710850f4c5540@o374711.ingest.sentr
 
 let current_user = null
 const game = $("#game_component").data("game")
+//var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+//var game_sock = ws_scheme + "://" + window.location.host + "/game/" + game + "/"
 const game_sock = 'ws://' + window.location.host + "/game/" + game + "/"
 
 $.get('http://localhost:8080/current-user/?format=json', function (result) {
