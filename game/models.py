@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
 from channels import Group
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 
 
@@ -48,6 +48,14 @@ class Game(models.Model):
         from django.db.models import Q
 
         return Game.objects.filter(Q(opponent=user) | Q(creator=user))
+
+    @staticmethod
+    def get_completed_games(user):
+        from django.db.models import Q
+
+        return Game.objects.filter(
+            Q(game_over=True) & (Q(opponent=user) | Q(creator=user))
+        )
 
     @staticmethod
     def get_by_id(id):
@@ -139,6 +147,26 @@ class Game(models.Model):
     def update_game_status(self, game_over):
         self.game_over = game_over
         self.save()
+
+    def check_timeout(self):
+        if (self.opponent != None) and (self.game_over != True):
+            last_log = GameLog.objects.filter(game=self).reverse()[0]
+            #timenow = datetime.now()
+            timenow = datetime.now(timezone.utc)
+            lastactivity = last_log.modified
+            diff = (timenow - lastactivity).total_seconds()
+
+            if (diff > 300):
+                if self.current_turn == self.creator:
+                    self.mark_complete(winner=self.opponent)
+                    self.update_game_status(game_over=True)
+                    self.add_log("{0} won the game, {1} forfeited!".format(self.opponent, self.creator))
+                    self.send_game_update()
+                elif self.current_turn == self.opponent:
+                    self.mark_complete(winner=self.opponent)
+                    self.update_game_status(game_over=True)
+                    self.add_log("{1} won the game, {0} forfeited!".format(self.opponent, self.creator))
+                    self.send_game_update()
 
 
 class GameSquare(models.Model):

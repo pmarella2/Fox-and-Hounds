@@ -35,6 +35,7 @@ class LobbyView(TemplateView):
             {"creator": game.creator.username, "id": game.pk}
             for game in Game.get_available_games()
         ]
+        completed_games = Game.get_available_games()
         player_games = Game.get_games_for_player(self.request.user)
 
         return context
@@ -48,7 +49,7 @@ class GameView(TemplateView):
     def dispatch(self, request, *args, **kwargs):
         self.game = Game.get_by_id(kwargs["game_id"])
         user = get_user(request)
-
+        self.game.check_timeout()
         if self.game.creator == user or self.game.opponent == user:
             return super(GameView, self).dispatch(request, *args, **kwargs)
 

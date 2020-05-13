@@ -45,13 +45,13 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django_otp.middleware.OTPMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # "csp.middleware.CSPMiddleware",
+    "csp.middleware.CSPMiddleware",
 ]
 
 ROOT_URLCONF = "fox_and_hounds.urls"
 
 CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8080"
+    "https://ab9c6c79.ngrok.io"
 ]
 
 TEMPLATES = [
@@ -107,9 +107,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 OTP_TOTP_ISSUER = "Fox and Hounds"
 
-SESSION_EXPIRE_SECONDS = 240
+SESSION_EXPIRE_SECONDS = 300
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
-SESSION_TIMEOUT_REDIRECT = "game-home"
+SESSION_TIMEOUT_REDIRECT = "home"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
@@ -132,7 +132,6 @@ EMAIL_HOST_PASSWORD = os.environ.get("GMAIL_PASS")
 CSP_DEFAULT_SRC = (
     "'self'",
     "https://o374711.ingest.sentry.io/",
-    "https://cbd65947.ngrok.io/",
 )
 CSP_STYLE_SRC = (
     "'self'",

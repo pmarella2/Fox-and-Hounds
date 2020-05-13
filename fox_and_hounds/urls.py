@@ -74,5 +74,6 @@ urlpatterns += [
 router = DefaultRouter()
 router.register(r"player-games", PlayerGameViewSet, "player_games")
 router.register(r"available-games", AvailableGameViewSet, "available_games")
+router.register(r"completed-games", CompletedGameViewSet, "completed_games")
 router.register(r"game-squares", GameSquaresViewSet, "game_squares")
 urlpatterns += router.urls

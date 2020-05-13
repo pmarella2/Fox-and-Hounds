@@ -118,7 +118,9 @@ class GameBoard extends Component {
     renderBoard() {
         let board = []
         let cur_row = -1
+
         if (this.state.game != null && this.state.squares != null) {
+
             board = this.state.squares.map(function (square) {
                 if (square.row != cur_row) {
                     cur_row = square.row

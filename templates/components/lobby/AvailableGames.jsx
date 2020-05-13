@@ -15,7 +15,7 @@ class AvailableGames extends React.Component {
 
     renderGameList() {
         let player_removed = this.props.game_list.filter(function (game) {
-            return game.creator.id !== this.props.player.id
+            return (game.creator.id !== this.props.player.id)
         }, this);
 
         if (player_removed.length > 0) {

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PlayerGames from './PlayerGames'
 import AvailableGames from './AvailableGames'
+import CompletedGames from './CompletedGames'
 import Websocket from 'react-websocket'
 import $ from 'jquery'
 
@@ -10,7 +11,8 @@ class LobbyBase extends React.Component {
         super(props);
         this.state = {
             player_game_list: [],
-            available_game_list: []
+            available_game_list: [],
+            completed_game_list: []
         }
         this.sendSocketMessage = this.sendSocketMessage.bind(this);
     }
@@ -31,9 +33,18 @@ class LobbyBase extends React.Component {
         }.bind(this))
     }
 
+    getCompletedGames() {
+        this.serverRequest = $.get('http://localhost:8080/completed-games/?format=json', function (result) {
+            this.setState({
+                completed_game_list: result
+            })
+        }.bind(this))
+    }
+
     componentDidMount() {
         this.getPlayerGames()
         this.getAvailableGames()
+        this.getCompletedGames()
     }
 
     componentWillUnmount() {
@@ -44,6 +55,7 @@ class LobbyBase extends React.Component {
         let result = JSON.parse(data)
         this.getPlayerGames()
         this.setState({ available_game_list: result })
+        this.setState({ completed_game_list: result })
     }
 
     sendSocketMessage(message) {
@@ -52,7 +64,6 @@ class LobbyBase extends React.Component {
     }
 
     render() {
-        console.log(this.props.socket)
         return (
             <div className="row">
                 <div className="col-lg-5">
@@ -61,6 +72,10 @@ class LobbyBase extends React.Component {
                 </div>
                 <div className="col-lg-5">
                     <AvailableGames player={this.props.current_user} game_list={this.state.available_game_list}
+                        sendSocketMessage={this.sendSocketMessage} />
+                </div>
+                <div className="col-lg-5">
+                    <CompletedGames player={this.props.current_user} game_list={this.state.completed_game_list}
                         sendSocketMessage={this.sendSocketMessage} />
                 </div>
                 <Websocket ref="socket" url={this.props.socket}

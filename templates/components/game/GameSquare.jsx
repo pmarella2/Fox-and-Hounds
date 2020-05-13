@@ -50,7 +50,7 @@ class GameSquare extends Component {
     }
 
     checkAvailable() {
-        if (this.props.isPlayerTurn() && this.props.getOpponentStatus()) {
+        if (this.props.isPlayerTurn()) {
             if (this.state.owner == null && this.state.possession_type != "Invalid") {
                 return true
             } else {
@@ -68,7 +68,6 @@ class GameSquare extends Component {
                 action: "check_move",
                 square_id: this.props.square_id
             })
-            console.log(test_val)
         }
     }
 
@@ -77,8 +76,6 @@ class GameSquare extends Component {
             return this.props.getActiveStatus()
         }
     }
-
-    check
 
     changeStatus(status) {
         if (this.props.isPlayerTurn()) {
@@ -104,7 +101,7 @@ class GameSquare extends Component {
     }
 
     squareClicked(square) {
-        if (this.props.gameComplete() == false) {
+        if (this.props.gameComplete() == false && this.props.getOpponentStatus()) {
             if (this.state.possession_type == "Claimed" && this.checkActive() == false) {
                 this.changeStatus("Active")
             } else if (this.state.possession_type == "Active") {
