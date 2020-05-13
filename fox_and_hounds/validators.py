@@ -21,11 +21,11 @@ class SameCharacterRepeatingValidator:
 
     def get_help_text(self):
         return _(
-            "Your password must not characters repeating consecutively (eg. iiii or 4444)."
+            "Your password must not have characters repeating consecutively (eg. iiii or 4444)."
         )
 
 
-class SymbolValidator:
+class RequiredSymbolValidator:
     def validate(self, password, user=None):
         if not re.findall(r"[()[\]{}|\\`~!@#$%^&*_\-+=;:'\",<>./?]", password):
             raise ValidationError(

@@ -98,7 +98,13 @@ CHANNEL_LAYERS = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "pwned_passwords_django.validators.PwnedPasswordsValidator",
-        "OPTIONS": {"error_message": ("This password was part of a previous breach")},
+        "OPTIONS": {"error_message": ("This password was found as part of a previous breach")},
+    },
+    {
+        "NAME": "fox_and_hounds.validators.SameCharacterRepeatingValidator",
+    },
+    {
+        "NAME": "fox_and_hounds.validators.RequiredSymbolValidator",
     },
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
