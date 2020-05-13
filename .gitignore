@@ -130,3 +130,4 @@ dmypy.json
 server.pem
 server.key
 node_modules
+*.rdb
