@@ -149,7 +149,7 @@ class Game(models.Model):
         self.save()
 
     def check_timeout(self):
-        if (self.opponent != None) and (self.game_over != True):
+        if (self.opponent is not None) and (self.game_over is True):
             last_log = GameLog.objects.filter(game=self).reverse()[0]
             #timenow = datetime.now()
             timenow = datetime.now(timezone.utc)
