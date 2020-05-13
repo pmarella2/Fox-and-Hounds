@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "34475e0692cb560de6b2"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "e86bc5ba42a8f534f24e"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -241,7 +241,7 @@
 /******/ 				};
 /******/ 			});
 /******/ 			hotUpdate = {};
-/******/ 			var chunkId = 0;
+/******/ 			var chunkId = 1;
 /******/ 			{ // eslint-disable-line no-lone-blocks
 /******/ 				/*globals chunkId */
 /******/ 				hotEnsureUpdateChunk(chunkId);
@@ -722,7 +722,7 @@
 /******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return hotCreateRequire(243)(__webpack_require__.s = 243);
+/******/ 	return hotCreateRequire(248)(__webpack_require__.s = 248);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -41929,7 +41929,12 @@ return /******/ (function(modules) { // webpackBootstrap
 //# sourceMappingURL=index.map
 
 /***/ }),
-/* 243 */
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41947,9 +41952,9 @@ var _browser = __webpack_require__(210);
 
 var Sentry = _interopRequireWildcard(_browser);
 
-var _LobbyBase = __webpack_require__(244);
+var _GameBoard = __webpack_require__(249);
 
-var _LobbyBase2 = _interopRequireDefault(_LobbyBase);
+var _GameBoard2 = _interopRequireDefault(_GameBoard);
 
 var _jquery = __webpack_require__(108);
 
@@ -41962,21 +41967,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Sentry.init({ dsn: "https://1295e0eabb06407d87a710850f4c5540@o374711.ingest.sentry.io/5236901" });
 
 var current_user = null;
+var game = (0, _jquery2.default)("#game_component").data("game");
 //var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-//var lobby_sock = ws_scheme + "://" + window.location.host + "/lobby/"
-var lobby_sock = 'ws://' + window.location.host + "/lobby/";
+//var game_sock = ws_scheme + "://" + window.location.host + "/game/" + game + "/"
+//const game_sock = 'ws://' + window.location.host + "/game/" + game + "/"
+var game_sock = "ws://" + "localhost:8888" + "/game/" + game + "/";
 
-_jquery2.default.get('http://localhost:8080/current-user/?format=json', function (result) {
+_jquery2.default.get('https://localhost:8080/current-user/?format=json', function (result) {
     current_user = result;
     render_component();
 });
 
 function render_component() {
-    _reactDom2.default.render(_react2.default.createElement(_LobbyBase2.default, { current_user: current_user, socket: lobby_sock }), document.getElementById('lobby_component'));
+    _reactDom2.default.render(_react2.default.createElement(_GameBoard2.default, { current_user: current_user, game_id: game, socket: game_sock }), document.getElementById("game_component"));
 }
 
 /***/ }),
-/* 244 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41992,29 +41999,21 @@ var _react = __webpack_require__(25);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(109);
+var _GameSquare = __webpack_require__(250);
 
-var _reactDom2 = _interopRequireDefault(_reactDom);
+var _GameSquare2 = _interopRequireDefault(_GameSquare);
 
-var _PlayerGames = __webpack_require__(245);
+var _GameLog = __webpack_require__(251);
 
-var _PlayerGames2 = _interopRequireDefault(_PlayerGames);
-
-var _AvailableGames = __webpack_require__(246);
-
-var _AvailableGames2 = _interopRequireDefault(_AvailableGames);
-
-var _CompletedGames = __webpack_require__(247);
-
-var _CompletedGames2 = _interopRequireDefault(_CompletedGames);
-
-var _reactWebsocket = __webpack_require__(242);
-
-var _reactWebsocket2 = _interopRequireDefault(_reactWebsocket);
+var _GameLog2 = _interopRequireDefault(_GameLog);
 
 var _jquery = __webpack_require__(108);
 
 var _jquery2 = _interopRequireDefault(_jquery);
+
+var _reactWebsocket = __webpack_require__(242);
+
+var _reactWebsocket2 = _interopRequireDefault(_reactWebsocket);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -42024,56 +42023,33 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var LobbyBase = function (_React$Component) {
-    _inherits(LobbyBase, _React$Component);
+var GameBoard = function (_Component) {
+    _inherits(GameBoard, _Component);
 
-    function LobbyBase(props) {
-        _classCallCheck(this, LobbyBase);
+    function GameBoard(props) {
+        _classCallCheck(this, GameBoard);
 
-        var _this = _possibleConstructorReturn(this, (LobbyBase.__proto__ || Object.getPrototypeOf(LobbyBase)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (GameBoard.__proto__ || Object.getPrototypeOf(GameBoard)).call(this, props));
 
         _this.state = {
-            player_game_list: [],
-            available_game_list: [],
-            completed_game_list: []
+            game: null,
+            squares: null,
+            log: null
         };
+
         _this.sendSocketMessage = _this.sendSocketMessage.bind(_this);
+        _this.isPlayerTurn = _this.isPlayerTurn.bind(_this);
+        _this.getCurrentPlayerId = _this.getCurrentPlayerId.bind(_this);
+        _this.getActiveStatus = _this.getActiveStatus.bind(_this);
+        _this.getOpponentStatus = _this.getOpponentStatus.bind(_this);
+        _this.gameComplete = _this.gameComplete.bind(_this);
         return _this;
     }
 
-    _createClass(LobbyBase, [{
-        key: 'getPlayerGames',
-        value: function getPlayerGames() {
-            this.serverRequest = _jquery2.default.get('http://localhost:8080/player-games/?format=json', function (result) {
-                this.setState({
-                    player_game_list: result
-                });
-            }.bind(this));
-        }
-    }, {
-        key: 'getAvailableGames',
-        value: function getAvailableGames() {
-            this.serverRequest = _jquery2.default.get('http://localhost:8080/available-games/?format=json', function (result) {
-                this.setState({
-                    available_game_list: result
-                });
-            }.bind(this));
-        }
-    }, {
-        key: 'getCompletedGames',
-        value: function getCompletedGames() {
-            this.serverRequest = _jquery2.default.get('http://localhost:8080/completed-games/?format=json', function (result) {
-                this.setState({
-                    completed_game_list: result
-                });
-            }.bind(this));
-        }
-    }, {
+    _createClass(GameBoard, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-            this.getPlayerGames();
-            this.getAvailableGames();
-            this.getCompletedGames();
+            this.getGame();
         }
     }, {
         key: 'componentWillUnmount',
@@ -42081,18 +42057,154 @@ var LobbyBase = function (_React$Component) {
             this.serverRequest.abort();
         }
     }, {
+        key: 'getGame',
+        value: function getGame() {
+            var game_url = 'https://localhost:8080/game-from-id/' + this.props.game_id;
+            this.serverRequest = _jquery2.default.get(game_url, function (result) {
+                this.setState({
+                    game: result.game,
+                    log: result.log,
+                    squares: result.squares
+                });
+            }.bind(this));
+        }
+    }, {
+        key: 'getSquares',
+        value: function getSquares() {
+            var squares_url = 'https://localhost:8080/game-squares/' + this.props.game_id;
+            this.serverRequest = _jquery2.default.get(squares_url, function (result) {
+                console.log(result);
+            }.bind(this));
+        }
+    }, {
         key: 'handleData',
         value: function handleData(data) {
             var result = JSON.parse(data);
-            this.getPlayerGames();
-            this.setState({ available_game_list: result });
-            this.setState({ completed_game_list: result });
+            this.setState({
+                game: result.game,
+                squares: result.squares,
+                log: result.log
+            });
         }
     }, {
         key: 'sendSocketMessage',
         value: function sendSocketMessage(message) {
             var socket = this.refs.socket;
             socket.state.ws.send(JSON.stringify(message));
+        }
+    }, {
+        key: 'isPlayerTurn',
+        value: function isPlayerTurn() {
+            if (this.props.current_user.id == this.state.game.current_turn.id) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }, {
+        key: 'gameComplete',
+        value: function gameComplete() {
+            return this.state.game.game_over;
+        }
+    }, {
+        key: 'getActiveStatus',
+        value: function getActiveStatus() {
+            return this.state.game.active;
+        }
+    }, {
+        key: 'getCurrentPlayerId',
+        value: function getCurrentPlayerId() {
+            return this.state.game.current_turn.id;
+        }
+    }, {
+        key: 'getOpponentStatus',
+        value: function getOpponentStatus() {
+            if (this.state.game.opponent != null) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }, {
+        key: 'renderRow',
+        value: function renderRow(row_num, cols) {
+
+            var row = cols.map(function (square) {
+
+                return _react2.default.createElement(_GameSquare2.default, { game_creator: this.state.game.creator.id,
+                    key: square.id,
+                    owner: square.owner,
+                    square_id: square.id,
+                    possession_type: square.status,
+                    loc_x: parseInt(square.col),
+                    loc_y: parseInt(square.row),
+                    sendSocketMessage: this.sendSocketMessage,
+                    isPlayerTurn: this.isPlayerTurn,
+                    getCurrentPlayerId: this.getCurrentPlayerId,
+                    getActiveStatus: this.getActiveStatus,
+                    getOpponentStatus: this.getOpponentStatus,
+                    gameComplete: this.gameComplete
+                });
+            }.bind(this));
+
+            return _react2.default.createElement(
+                'tr',
+                { key: row_num },
+                row
+            );
+        }
+    }, {
+        key: 'renderBoard',
+        value: function renderBoard() {
+            var board = [];
+            var cur_row = -1;
+
+            if (this.state.game != null && this.state.squares != null) {
+
+                board = this.state.squares.map(function (square) {
+                    if (square.row != cur_row) {
+                        cur_row = square.row;
+                        var row_cols = this.state.squares.filter(function (c) {
+                            if (c.row == cur_row) {
+                                return c;
+                            }
+                        });
+                        return this.renderRow(cur_row, row_cols);
+                    }
+                }, this);
+            } else {
+                board = 'Loading the board...';
+            }
+            return board;
+        }
+    }, {
+        key: 'currentTurn',
+        value: function currentTurn() {
+            if (this.state.game) {
+                if (this.state.game.completed != null) {
+                    return _react2.default.createElement(
+                        'h3',
+                        null,
+                        'The Winner: ',
+                        _react2.default.createElement(
+                            'span',
+                            { className: 'text-primary' },
+                            this.state.game.winner.username
+                        )
+                    );
+                } else {
+                    return _react2.default.createElement(
+                        'h3',
+                        null,
+                        'Current Turn:',
+                        _react2.default.createElement(
+                            'span',
+                            { className: 'text-primary' },
+                            this.state.game.current_turn.username
+                        )
+                    );
+                }
+            }
         }
     }, {
         key: 'render',
@@ -42102,21 +42214,24 @@ var LobbyBase = function (_React$Component) {
                 { className: 'row' },
                 _react2.default.createElement(
                     'div',
-                    { className: 'col-lg-5' },
-                    _react2.default.createElement(_PlayerGames2.default, { player: this.props.current_user, game_list: this.state.player_game_list,
-                        sendSocketMessage: this.sendSocketMessage })
+                    { className: 'col-sm-6' },
+                    this.currentTurn(),
+                    _react2.default.createElement(
+                        'table',
+                        null,
+                        _react2.default.createElement(
+                            'tbody',
+                            null,
+                            this.renderBoard()
+                        )
+                    )
                 ),
                 _react2.default.createElement(
                     'div',
-                    { className: 'col-lg-5' },
-                    _react2.default.createElement(_AvailableGames2.default, { player: this.props.current_user, game_list: this.state.available_game_list,
-                        sendSocketMessage: this.sendSocketMessage })
-                ),
-                _react2.default.createElement(
-                    'div',
-                    { className: 'col-lg-5' },
-                    _react2.default.createElement(_CompletedGames2.default, { player: this.props.current_user, game_list: this.state.completed_game_list,
-                        sendSocketMessage: this.sendSocketMessage })
+                    { className: 'col-sm-8' },
+                    _react2.default.createElement(_GameLog2.default, { sendSocketMessage: this.sendSocketMessage,
+                        log_entries: this.state.log,
+                        game_id: this.props.game_id })
                 ),
                 _react2.default.createElement(_reactWebsocket2.default, { ref: 'socket', url: this.props.socket,
                     onMessage: this.handleData.bind(this), reconnect: true })
@@ -42124,19 +42239,19 @@ var LobbyBase = function (_React$Component) {
         }
     }]);
 
-    return LobbyBase;
-}(_react2.default.Component);
+    return GameBoard;
+}(_react.Component);
 
-LobbyBase.defaultProps = {};
-
-LobbyBase.propTypes = {
-    socket: _react2.default.PropTypes.string
+GameBoard.propTypes = {
+    game_id: _react.PropTypes.number,
+    socket: _react.PropTypes.string,
+    current_user: _react.PropTypes.object
 };
 
-exports.default = LobbyBase;
+exports.default = GameBoard;
 
 /***/ }),
-/* 245 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42160,147 +42275,176 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var PlayerGames = function (_React$Component) {
-    _inherits(PlayerGames, _React$Component);
+var invalid_icon = _react2.default.createElement("img", { src: "/static/img/invalid-square.png" });
+var free_icon = _react2.default.createElement("img", { src: "/static/img/free-square.png" });
+var fox_icon = _react2.default.createElement("img", { src: "/static/img/fox-player.png" });
+var hound_icon = _react2.default.createElement("img", { src: "/static/img/hound-player.png" });
+var hound_active_icon = _react2.default.createElement("img", { src: "/static/img/hound-active.png" });
+var fox_active_icon = _react2.default.createElement("img", { src: "/static/img/fox-active.png" });
 
-    function PlayerGames(props) {
-        _classCallCheck(this, PlayerGames);
+var GameSquare = function (_Component) {
+    _inherits(GameSquare, _Component);
 
-        var _this = _possibleConstructorReturn(this, (PlayerGames.__proto__ || Object.getPrototypeOf(PlayerGames)).call(this, props));
+    function GameSquare(props) {
+        _classCallCheck(this, GameSquare);
+
+        var _this = _possibleConstructorReturn(this, (GameSquare.__proto__ || Object.getPrototypeOf(GameSquare)).call(this, props));
 
         _this.state = {
-            game_list: _this.props.game_list
+            owner: props.owner,
+            possession_type: props.possession_type
         };
-
-        _this.onCreateGameClick = _this.onCreateGameClick.bind(_this);
-        _this.renderButton = _this.renderButton.bind(_this);
-        _this.renderOpponent = _this.renderOpponent.bind(_this);
+        _this.squareClicked = _this.squareClicked.bind(_this);
         return _this;
     }
 
-    _createClass(PlayerGames, [{
-        key: "onCreateGameClick",
-        value: function onCreateGameClick(event) {
-            this.props.sendSocketMessage({ action: "create_game" });
-        }
-    }, {
+    _createClass(GameSquare, [{
         key: "componentWillReceiveProps",
-        value: function componentWillReceiveProps(newProp) {
-            this.setState({ game_list: newProp.game_list });
+        value: function componentWillReceiveProps(newProps) {
+            this.setState({
+                owner: newProps.owner,
+                possession_type: newProps.possession_type
+            });
         }
     }, {
-        key: "renderButton",
-        value: function renderButton(game) {
-            if (game.completed) {
-                return "View";
-            } else if (game.opponent == null && game.creator.id == this.props.player.id) {
-                return "Waiting...";
-            } else {
-                return "Play";
+        key: "getStatus",
+        value: function getStatus() {
+            var claimed_icon = void 0,
+                active_icon = null;
+
+            if (this.state.owner) {
+                if (this.state.owner == this.props.game_creator) {
+                    claimed_icon = fox_icon;
+                    active_icon = fox_active_icon;
+                } else {
+                    claimed_icon = hound_icon;
+                    active_icon = hound_active_icon;
+                }
+            }
+
+            switch (this.state.possession_type) {
+                case "Claimed":
+                    return claimed_icon;
+                case "Active":
+                    return active_icon;
+                case "Free":
+                    return free_icon;
+                default:
+                    return invalid_icon;
             }
         }
     }, {
-        key: "renderOpponent",
-        value: function renderOpponent(game) {
-            if (game.opponent != null) {
-                return game.opponent.username;
-            } else {
-                return "???";
+        key: "checkAvailable",
+        value: function checkAvailable() {
+            if (this.props.isPlayerTurn()) {
+                if (this.state.owner == null && this.state.possession_type != "Invalid") {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
     }, {
-        key: "renderGameList",
-        value: function renderGameList() {
-            if (this.props.game_list.length > 0) {
-                return this.props.game_list.map(function (game) {
-                    if (game.game_over !== true) {
-                        return _react2.default.createElement(
-                            "li",
-                            { key: game.id, className: "list-group-item" },
-                            _react2.default.createElement(
-                                "span",
-                                { className: "badge float-left" },
-                                game.id
-                            ),
-                            "\xA0\xA0",
-                            _react2.default.createElement(
-                                "span",
-                                null,
-                                game.creator.username
-                            ),
-                            " vs ",
-                            _react2.default.createElement(
-                                "span",
-                                null,
-                                this.renderOpponent(game)
-                            ),
-                            _react2.default.createElement(
-                                "a",
-                                { className: "btn btn-sm btn-primary float-right", href: "/game/" + game.id + "/" },
-                                this.renderButton(game)
-                            )
-                        );
+        key: "checkValidMove",
+        value: function checkValidMove() {
+            var test_val = null;
+
+            if (this.props.isPlayerTurn()) {
+                test_val = this.props.sendSocketMessage({
+                    action: "check_move",
+                    square_id: this.props.square_id
+                });
+            }
+        }
+    }, {
+        key: "checkActive",
+        value: function checkActive() {
+            if (this.props.isPlayerTurn()) {
+                return this.props.getActiveStatus();
+            }
+        }
+    }, {
+        key: "changeStatus",
+        value: function changeStatus(status) {
+            if (this.props.isPlayerTurn()) {
+                if (this.state.owner) {
+                    if (this.state.owner == this.props.getCurrentPlayerId()) {
+                        this.props.sendSocketMessage({
+                            action: "change_status",
+                            square_id: this.props.square_id,
+                            new_status: status
+                        });
                     }
-                }, this);
-            } else {
-                return "No games to list!";
+                }
+            }
+        }
+    }, {
+        key: "takeOwnership",
+        value: function takeOwnership() {
+            if (this.props.isPlayerTurn()) {
+                this.props.sendSocketMessage({
+                    action: "claim_square",
+                    square_id: this.props.square_id
+                });
+            }
+        }
+    }, {
+        key: "squareClicked",
+        value: function squareClicked(square) {
+            if (this.props.gameComplete() == false && this.props.getOpponentStatus()) {
+                if (this.state.possession_type == "Claimed" && this.checkActive() == false) {
+                    this.changeStatus("Active");
+                } else if (this.state.possession_type == "Active") {
+                    this.changeStatus("Claimed");
+                } else if (this.state.possession_type == "Free" && this.checkActive() == true) {
+                    if (this.checkAvailable()) {
+                        this.takeOwnership();
+                    }
+                }
             }
         }
     }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
-                "div",
-                null,
+                "td",
+                { onClick: this.squareClicked, height: "60", width: "60" },
+                this.getStatus(),
                 _react2.default.createElement(
                     "div",
-                    { className: "panel panel-primary" },
-                    _react2.default.createElement(
-                        "div",
-                        { className: "panel-heading" },
-                        _react2.default.createElement(
-                            "span",
-                            null,
-                            "Your Pending Games"
-                        ),
-                        _react2.default.createElement(
-                            "a",
-                            { href: "#", className: "float-right badge", onClick: this.onCreateGameClick, id: "create_game" },
-                            "Start a New Game"
-                        )
-                    ),
-                    _react2.default.createElement(
-                        "div",
-                        { className: "panel-body" },
-                        _react2.default.createElement(
-                            "div",
-                            null,
-                            _react2.default.createElement(
-                                "ul",
-                                { className: "list-group games-list" },
-                                this.renderGameList()
-                            )
-                        )
-                    )
+                    { className: "coords" },
+                    "(",
+                    this.props.loc_x,
+                    ", ",
+                    this.props.loc_y,
+                    ") "
                 )
             );
         }
     }]);
 
-    return PlayerGames;
-}(_react2.default.Component);
+    return GameSquare;
+}(_react.Component);
 
-PlayerGames.defaultProps = {};
-
-PlayerGames.propTypes = {
-    game_list: _react2.default.PropTypes.array,
-    player: _react2.default.PropTypes.object
+GameSquare.propTypes = {
+    loc_x: _react.PropTypes.number,
+    loc_y: _react.PropTypes.number,
+    square_id: _react.PropTypes.number,
+    owner: _react.PropTypes.number,
+    possession_type: _react.PropTypes.string,
+    game_creator: _react.PropTypes.number,
+    sendSocketMessage: _react.PropTypes.func,
+    isPlayerTurn: _react.PropTypes.func,
+    getCurrentPlayerId: _react.PropTypes.func,
+    getActiveStatus: _react.PropTypes.func,
+    checkActive: _react.PropTypes.func,
+    gameComplete: _react.PropTypes.func
 };
 
-exports.default = PlayerGames;
+exports.default = GameSquare;
 
 /***/ }),
-/* 246 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42324,247 +42468,60 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var AvailableGames = function (_React$Component) {
-    _inherits(AvailableGames, _React$Component);
+var backgroundColor = {
+    'background': '#4b4a4a'
+};
 
-    function AvailableGames(props) {
-        _classCallCheck(this, AvailableGames);
+var GameLog = function (_Component) {
+    _inherits(GameLog, _Component);
 
-        var _this = _possibleConstructorReturn(this, (AvailableGames.__proto__ || Object.getPrototypeOf(AvailableGames)).call(this, props));
+    function GameLog(props) {
+        _classCallCheck(this, GameLog);
+
+        var _this = _possibleConstructorReturn(this, (GameLog.__proto__ || Object.getPrototypeOf(GameLog)).call(this, props));
 
         _this.state = {
-            game_list: _this.props.game_list
+            log_entries: props.log_entries
         };
-        _this.renderGameList = _this.renderGameList.bind(_this);
         return _this;
     }
 
-    _createClass(AvailableGames, [{
-        key: "componentWillReceiveProps",
-        value: function componentWillReceiveProps(newProp) {
-            this.setState({ game_list: newProp.game_list });
-        }
-    }, {
-        key: "renderGameList",
-        value: function renderGameList() {
-            var player_removed = this.props.game_list.filter(function (game) {
-                return game.creator.id !== this.props.player.id;
-            }, this);
-
-            if (player_removed.length > 0) {
-                return player_removed.map(function (game) {
-                    return _react2.default.createElement(
-                        "li",
-                        { key: game.id, className: "list-group-item" },
-                        _react2.default.createElement(
-                            "span",
-                            { className: "badge float-left" },
-                            game.id,
-                            " "
-                        ),
-                        "\xA0 \xA0",
-                        _react2.default.createElement(
-                            "span",
-                            null,
-                            game.creator.username,
-                            " vs Waiting..."
-                        ),
-                        _react2.default.createElement(
-                            "a",
-                            { className: "btn btn-sm btn-primary float-right", href: "/game/" + game.id + "/" },
-                            "Play"
-                        )
-                    );
-                }, this);
-            } else {
-                return "No available games!";
-            }
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                "div",
-                null,
-                _react2.default.createElement(
-                    "div",
-                    { className: "panel panel-primary" },
-                    _react2.default.createElement(
-                        "div",
-                        { className: "panel-heading" },
-                        _react2.default.createElement(
-                            "span",
-                            null,
-                            "Available Games"
-                        )
-                    ),
-                    _react2.default.createElement(
-                        "div",
-                        { className: "panel-body" },
-                        _react2.default.createElement(
-                            "div",
-                            null,
-                            _react2.default.createElement(
-                                "ul",
-                                { className: "list-group games-list" },
-                                this.renderGameList()
-                            )
-                        )
-                    )
-                )
-            );
-        }
-    }]);
-
-    return AvailableGames;
-}(_react2.default.Component);
-
-AvailableGames.defaultProps = {};
-
-AvailableGames.propTypes = {
-    game_list: _react2.default.PropTypes.array,
-    player: _react2.default.PropTypes.object
-
-};
-
-exports.default = AvailableGames;
-
-/***/ }),
-/* 247 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(25);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var red = {
-    'color': '#f20b0b'
-};
-
-var green = {
-    'color': '#61ef0a'
-};
-
-var CompletedGames = function (_React$Component) {
-    _inherits(CompletedGames, _React$Component);
-
-    function CompletedGames(props) {
-        _classCallCheck(this, CompletedGames);
-
-        var _this = _possibleConstructorReturn(this, (CompletedGames.__proto__ || Object.getPrototypeOf(CompletedGames)).call(this, props));
-
-        _this.state = {
-            game_list: _this.props.game_list
-        };
-        _this.renderGameList = _this.renderGameList.bind(_this);
-        return _this;
-    }
-
-    _createClass(CompletedGames, [{
+    _createClass(GameLog, [{
         key: 'componentWillReceiveProps',
-        value: function componentWillReceiveProps(newProp) {
-            this.setState({ game_list: newProp.game_list });
+        value: function componentWillReceiveProps(newProps) {
+            this.setState({
+                log_entries: newProps.log_entries
+            });
         }
     }, {
-        key: 'renderGameList',
-        value: function renderGameList() {
-            var player_removed = this.props.game_list.filter(function (game) {
-                return game.winner !== null;
-            }, this);
-
-            if (player_removed.length > 0) {
-                return player_removed.map(function (game) {
-                    if (game.winner.id == this.props.player.id) {
-                        return _react2.default.createElement(
-                            'li',
-                            { key: game.id, className: 'list-group-item' },
-                            _react2.default.createElement(
-                                'span',
-                                { className: 'badge float-left' },
-                                game.id,
-                                ' '
-                            ),
-                            '\xA0 \xA0',
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                game.creator.username,
-                                ' vs ',
-                                game.opponent.username
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                _react2.default.createElement('br', null),
-                                'Your Result: '
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                { style: green },
-                                'WIN'
-                            ),
-                            _react2.default.createElement(
-                                'a',
-                                { className: 'btn btn-sm btn-primary float-right', href: "/game/" + game.id + "/" },
-                                'View'
-                            )
-                        );
-                    } else {
-                        return _react2.default.createElement(
-                            'li',
-                            { key: game.id, className: 'list-group-item' },
-                            _react2.default.createElement(
-                                'span',
-                                { className: 'badge float-left' },
-                                game.id,
-                                ' '
-                            ),
-                            '\xA0 \xA0',
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                game.creator.username,
-                                ' vs ',
-                                game.opponent.username
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                null,
-                                _react2.default.createElement('br', null),
-                                'Your Result: '
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                { style: red },
-                                'LOSS'
-                            ),
-                            _react2.default.createElement(
-                                'a',
-                                { className: 'btn btn-sm btn-primary float-right', href: "/game/" + game.id + "/" },
-                                'View'
-                            )
-                        );
-                    }
-                }, this);
-            } else {
-                return "No completed games!";
+        key: 'renderLogEntry',
+        value: function renderLogEntry(entry) {
+            var log_sender = "Server";
+            if (entry.player != null) {
+                log_sender = entry.player.username;
+            }
+            return _react2.default.createElement(
+                'li',
+                { key: entry.id, className: 'list-group-item', style: backgroundColor },
+                _react2.default.createElement(
+                    'span',
+                    { className: 'badge float-left player-badge' },
+                    log_sender
+                ),
+                _react2.default.createElement(
+                    'span',
+                    null,
+                    entry.text
+                )
+            );
+        }
+    }, {
+        key: 'renderLog',
+        value: function renderLog() {
+            if (this.state.log_entries) {
+                return this.state.log_entries.map(function (entry) {
+                    return this.renderLogEntry(entry);
+                }.bind(this));
             }
         }
     }, {
@@ -42574,47 +42531,28 @@ var CompletedGames = function (_React$Component) {
                 'div',
                 null,
                 _react2.default.createElement(
-                    'div',
-                    { className: 'panel panel-primary' },
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'panel-heading' },
-                        _react2.default.createElement(
-                            'span',
-                            null,
-                            'Your Completed Games'
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'panel-body' },
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            _react2.default.createElement(
-                                'ul',
-                                { className: 'list-group games-list' },
-                                this.renderGameList()
-                            )
-                        )
-                    )
+                    'h3',
+                    null,
+                    'Game Log'
+                ),
+                _react2.default.createElement(
+                    'ul',
+                    { className: 'list-group' },
+                    this.renderLog()
                 )
             );
         }
     }]);
 
-    return CompletedGames;
-}(_react2.default.Component);
+    return GameLog;
+}(_react.Component);
 
-CompletedGames.defaultProps = {};
-
-CompletedGames.propTypes = {
-    game_list: _react2.default.PropTypes.array,
-    player: _react2.default.PropTypes.object
-
+GameLog.propTypes = {
+    log_entries: _react.PropTypes.array,
+    sendSocketMessage: _react.PropTypes.func
 };
 
-exports.default = CompletedGames;
+exports.default = GameLog;
 
 /***/ })
 /******/ ]);

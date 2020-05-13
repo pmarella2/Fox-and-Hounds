@@ -45,14 +45,13 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django_otp.middleware.OTPMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "csp.middleware.CSPMiddleware",
+    #"csp.middleware.CSPMiddleware",
+    "pwned_passwords_django.middleware.PwnedPasswordsMiddleware",
 ]
 
 ROOT_URLCONF = "fox_and_hounds.urls"
 
-CORS_ORIGIN_WHITELIST = [
-    "https://ab9c6c79.ngrok.io"
-]
+CORS_ORIGIN_WHITELIST = []
 
 TEMPLATES = [
     {
@@ -79,7 +78,7 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-
+"""
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgiref.inmemory.ChannelLayer",
@@ -95,14 +94,29 @@ CHANNEL_LAYERS = {
         "symmetric_encryption_keys": [SECRET_KEY],
     },
 }
-"""
+
 AUTH_PASSWORD_VALIDATORS = [
+    {
+        "NAME": "pwned_passwords_django.validators.PwnedPasswordsValidator",
+        "OPTIONS": {"error_message": ("This password was part of a previous breach")},
+    },
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {"min_length": 8},
+    },
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+]
+
+PASSWORD_HASHERS = [
+    "fox_and_hounds.hashers.MyPBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
 ]
 
 OTP_TOTP_ISSUER = "Fox and Hounds"
@@ -110,6 +124,7 @@ OTP_TOTP_ISSUER = "Fox and Hounds"
 SESSION_EXPIRE_SECONDS = 300
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 SESSION_TIMEOUT_REDIRECT = "home"
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
@@ -128,7 +143,7 @@ EMAIL_HOST_PASSWORD = os.environ.get("GMAIL_PASS")
 # SECURE_BROWSER_XSS_FILTER = True
 # SECURE_CONTENT_TYPE_NOSNIFF = True
 # SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-
+"""
 CSP_DEFAULT_SRC = (
     "'self'",
     "https://o374711.ingest.sentry.io/",
@@ -145,7 +160,7 @@ CSP_SCRIPT_SRC = (
 )
 CSP_IMG_SRC = ("'self'",)
 CSP_FONT_SRC = ("'self'",)
-
+"""
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
