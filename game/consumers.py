@@ -80,7 +80,7 @@ class GameConsumer(JsonWebsocketConsumer):
 
         if action == "change_status":
             square = GameSquare.get_by_id(content["square_id"])
-            square.change(content["new_status"], self.message.user)
+            square.change(content["new_status"])
 
     def disconnect(self, message, **kwargs):
         """

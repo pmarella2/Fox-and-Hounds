@@ -321,7 +321,7 @@ class GameSquare(models.Model):
 
             self.game.send_game_update()
 
-    def change(self, status_type, user):
+    def change(self, status_type):
         if status_type == "Active":
             self.status = status_type
             self.save(update_fields=["status"])
