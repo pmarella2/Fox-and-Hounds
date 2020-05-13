@@ -45,7 +45,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django_otp.middleware.OTPMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    #"csp.middleware.CSPMiddleware",
+    "csp.middleware.CSPMiddleware",
     "pwned_passwords_django.middleware.PwnedPasswordsMiddleware",
 ]
 
@@ -139,20 +139,21 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get("GMAIL_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("GMAIL_PASS")
 
-# CSRF_COOKIE_SECURE = True
-# SESSION_COOKIE_SECURE = True
-# SECURE_HSTS_SECONDS = 31556952
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_HSTS_PRELOAD = True
-# SECURE_SSL_REDIRECT = True
-# SECURE_REFERRER_POLICY = "same-origin"
-# SECURE_BROWSER_XSS_FILTER = True
-# SECURE_CONTENT_TYPE_NOSNIFF = True
-# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-"""
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31556952
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_SSL_REDIRECT = True
+SECURE_REFERRER_POLICY = "same-origin"
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 CSP_DEFAULT_SRC = (
     "'self'",
     "https://o374711.ingest.sentry.io/",
+    "ws://localhost:8888/"
 )
 CSP_STYLE_SRC = (
     "'self'",
@@ -166,7 +167,7 @@ CSP_SCRIPT_SRC = (
 )
 CSP_IMG_SRC = ("'self'",)
 CSP_FONT_SRC = ("'self'",)
-"""
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

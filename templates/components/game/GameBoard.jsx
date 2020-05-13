@@ -145,7 +145,7 @@ class GameBoard extends Component {
             if (this.state.game.completed != null) {
                 return <h3>The Winner: <span className="text-primary">{(this.state.game.winner.username)}</span></h3>
             } else {
-                return <h3>Current Turn:
+                return <h3>Current Turn: 
                     <span className="text-primary">{(this.state.game.current_turn.username)}</span>
                 </h3>
             }
