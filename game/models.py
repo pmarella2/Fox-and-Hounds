@@ -273,15 +273,15 @@ class GameSquare(models.Model):
                 if square and square.status == "Free":
                     hound_win_condition = False
 
-        if fox_win_condition == False and hound_win_condition == False:
+        if fox_win_condition is False and hound_win_condition is False:
             fox_win_condition = True
             for hound_square in hound_squares:
                 if hound_square.row != 7:
                     fox_win_condition = False
 
-        if fox_win_condition == True:
+        if fox_win_condition is True:
             return True, "fox"
-        elif hound_win_condition == True:
+        elif hound_win_condition is True:
             return True, "hound"
         else:
             return False, "none"
