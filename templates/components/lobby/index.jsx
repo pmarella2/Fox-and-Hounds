@@ -9,9 +9,10 @@ Sentry.init({ dsn: "https://1295e0eabb06407d87a710850f4c5540@o374711.ingest.sent
 var current_user = null
 //var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
 //var lobby_sock = ws_scheme + "://" + window.location.host + "/lobby/"
-var lobby_sock = 'ws://' + window.location.host + "/lobby/"
+//var lobby_sock = 'ws://' + window.location.host + "/lobby/"
+var lobby_sock = "ws://" + "localhost:8888" + "/lobby/"
 
-$.get('http://localhost:8080/current-user/?format=json', function (result) {
+$.get('https://localhost:8080/current-user/?format=json', function (result) {
     current_user = result
     render_component()
 })

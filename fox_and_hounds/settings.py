@@ -10,7 +10,7 @@ sentry_sdk.init(
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("SECRET_KEY")
-DEBUG = os.environ.get("DEBUG_VALUE") == "True"
+DEBUG = False
 ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 INSTALLED_APPS = [
@@ -46,13 +46,12 @@ MIDDLEWARE = [
     "django_otp.middleware.OTPMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "csp.middleware.CSPMiddleware",
+    "pwned_passwords_django.middleware.PwnedPasswordsMiddleware",
 ]
 
 ROOT_URLCONF = "fox_and_hounds.urls"
 
-CORS_ORIGIN_WHITELIST = [
-    "https://ab9c6c79.ngrok.io"
-]
+CORS_ORIGIN_WHITELIST = []
 
 TEMPLATES = [
     {
@@ -79,7 +78,7 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-
+"""
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgiref.inmemory.ChannelLayer",
@@ -95,14 +94,35 @@ CHANNEL_LAYERS = {
         "symmetric_encryption_keys": [SECRET_KEY],
     },
 }
-"""
+
 AUTH_PASSWORD_VALIDATORS = [
+    {
+        "NAME": "pwned_passwords_django.validators.PwnedPasswordsValidator",
+        "OPTIONS": {"error_message": ("This password was found as part of a previous breach")},
+    },
+    {
+        "NAME": "fox_and_hounds.validators.SameCharacterRepeatingValidator",
+    },
+    {
+        "NAME": "fox_and_hounds.validators.RequiredSymbolValidator",
+    },
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {"min_length": 8},
+    },
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+]
+
+PASSWORD_HASHERS = [
+    "fox_and_hounds.hashers.MyPBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
 ]
 
 OTP_TOTP_ISSUER = "Fox and Hounds"
@@ -110,6 +130,7 @@ OTP_TOTP_ISSUER = "Fox and Hounds"
 SESSION_EXPIRE_SECONDS = 300
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
 SESSION_TIMEOUT_REDIRECT = "home"
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
@@ -118,20 +139,21 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get("GMAIL_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("GMAIL_PASS")
 
-# CSRF_COOKIE_SECURE = True
-# SESSION_COOKIE_SECURE = True
-# SECURE_HSTS_SECONDS = 31556952
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_HSTS_PRELOAD = True
-# SECURE_SSL_REDIRECT = True
-# SECURE_REFERRER_POLICY = "same-origin"
-# SECURE_BROWSER_XSS_FILTER = True
-# SECURE_CONTENT_TYPE_NOSNIFF = True
-# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31556952
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_SSL_REDIRECT = True
+SECURE_REFERRER_POLICY = "same-origin"
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 CSP_DEFAULT_SRC = (
     "'self'",
     "https://o374711.ingest.sentry.io/",
+    "ws://localhost:8888/"
 )
 CSP_STYLE_SRC = (
     "'self'",

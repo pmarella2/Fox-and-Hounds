@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "dffd19523e992c9570d5"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "e86bc5ba42a8f534f24e"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -41964,9 +41964,10 @@ Sentry.init({ dsn: "https://1295e0eabb06407d87a710850f4c5540@o374711.ingest.sent
 var current_user = null;
 //var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
 //var lobby_sock = ws_scheme + "://" + window.location.host + "/lobby/"
-var lobby_sock = 'ws://' + window.location.host + "/lobby/";
+//var lobby_sock = 'ws://' + window.location.host + "/lobby/"
+var lobby_sock = "ws://" + "localhost:8888" + "/lobby/";
 
-_jquery2.default.get('http://localhost:8080/current-user/?format=json', function (result) {
+_jquery2.default.get('https://localhost:8080/current-user/?format=json', function (result) {
     current_user = result;
     render_component();
 });
@@ -42044,7 +42045,7 @@ var LobbyBase = function (_React$Component) {
     _createClass(LobbyBase, [{
         key: 'getPlayerGames',
         value: function getPlayerGames() {
-            this.serverRequest = _jquery2.default.get('http://localhost:8080/player-games/?format=json', function (result) {
+            this.serverRequest = _jquery2.default.get('https://localhost:8080/player-games/?format=json', function (result) {
                 this.setState({
                     player_game_list: result
                 });
@@ -42053,7 +42054,7 @@ var LobbyBase = function (_React$Component) {
     }, {
         key: 'getAvailableGames',
         value: function getAvailableGames() {
-            this.serverRequest = _jquery2.default.get('http://localhost:8080/available-games/?format=json', function (result) {
+            this.serverRequest = _jquery2.default.get('https://localhost:8080/available-games/?format=json', function (result) {
                 this.setState({
                     available_game_list: result
                 });
@@ -42062,7 +42063,7 @@ var LobbyBase = function (_React$Component) {
     }, {
         key: 'getCompletedGames',
         value: function getCompletedGames() {
-            this.serverRequest = _jquery2.default.get('http://localhost:8080/completed-games/?format=json', function (result) {
+            this.serverRequest = _jquery2.default.get('https://localhost:8080/completed-games/?format=json', function (result) {
                 this.setState({
                     completed_game_list: result
                 });

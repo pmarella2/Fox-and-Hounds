@@ -30,7 +30,7 @@ class GameBoard extends Component {
     }
 
     getGame() {
-        const game_url = 'http://localhost:8080/game-from-id/' + this.props.game_id
+        const game_url = 'https://localhost:8080/game-from-id/' + this.props.game_id
         this.serverRequest = $.get(game_url, function (result) {
             this.setState({
                 game: result.game,
@@ -41,7 +41,7 @@ class GameBoard extends Component {
     }
 
     getSquares() {
-        const squares_url = 'http://localhost:8080/game-squares/' + this.props.game_id
+        const squares_url = 'https://localhost:8080/game-squares/' + this.props.game_id
         this.serverRequest = $.get(squares_url, function (result) {
             console.log(result)
         }.bind(this))
@@ -145,7 +145,7 @@ class GameBoard extends Component {
             if (this.state.game.completed != null) {
                 return <h3>The Winner: <span className="text-primary">{(this.state.game.winner.username)}</span></h3>
             } else {
-                return <h3>Current Turn:
+                return <h3>Current Turn: 
                     <span className="text-primary">{(this.state.game.current_turn.username)}</span>
                 </h3>
             }

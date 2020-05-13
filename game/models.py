@@ -149,7 +149,7 @@ class Game(models.Model):
         self.save()
 
     def check_timeout(self):
-        if (self.opponent is not None) and (self.game_over is True):
+        if (self.opponent is not None) and (self.game_over is False):
             last_log = GameLog.objects.filter(game=self).reverse()[0]
             #timenow = datetime.now()
             timenow = datetime.now(timezone.utc)
@@ -273,15 +273,15 @@ class GameSquare(models.Model):
                 if square and square.status == "Free":
                     hound_win_condition = False
 
-        if fox_win_condition == False and hound_win_condition == False:
+        if fox_win_condition is False and hound_win_condition is False:
             fox_win_condition = True
             for hound_square in hound_squares:
                 if hound_square.row != 7:
                     fox_win_condition = False
 
-        if fox_win_condition == True:
+        if fox_win_condition is True:
             return True, "fox"
-        elif hound_win_condition == True:
+        elif hound_win_condition is True:
             return True, "hound"
         else:
             return False, "none"
