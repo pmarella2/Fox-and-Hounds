@@ -25,9 +25,9 @@ class SameCharacterRepeatingValidator:
         )
 
 
-class SymbolValidator(object):
+class SymbolValidator:
     def validate(self, password, user=None):
-        if not re.findall("[()[\]{}|\\`~!@#$%^&*_\-+=;:'\",<>./?]", password):
+        if not re.findall(r"[()[\]{}|\\`~!@#$%^&*_\-+=;:'\",<>./?]", password):
             raise ValidationError(
                 _(
                     "The password must contain at least 1 symbol: "
