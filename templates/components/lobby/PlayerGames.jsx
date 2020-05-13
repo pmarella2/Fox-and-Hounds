@@ -32,7 +32,6 @@ class PlayerGames extends React.Component {
     }
 
     renderOpponent(game) {
-        console.log(game)
         if (game.opponent != null) {
             return game.opponent.username
         } else {
@@ -43,12 +42,14 @@ class PlayerGames extends React.Component {
     renderGameList() {
         if (this.props.game_list.length > 0) {
             return this.props.game_list.map(function (game) {
-                return <li key={game.id} className="list-group-item">
-                    <span className="badge float-left">{game.id}</span>&nbsp;&nbsp;
+                if (game.game_over !== true) {
+                    return <li key={game.id} className="list-group-item">
+                        <span className="badge float-left">{game.id}</span>&nbsp;&nbsp;
                                 <span>{game.creator.username}</span> vs <span>{this.renderOpponent(game)}</span>
 
-                    <a className="btn btn-sm btn-primary float-right" href={"/game/" + game.id + "/"}>{this.renderButton(game)}</a>
-                </li>
+                        <a className="btn btn-sm btn-primary float-right" href={"/game/" + game.id + "/"}>{this.renderButton(game)}</a>
+                    </li>
+                }
             }, this)
 
         } else {
@@ -61,7 +62,7 @@ class PlayerGames extends React.Component {
             <div>
                 <div className="panel panel-primary">
                     <div className="panel-heading">
-                        <span>Your Games</span>
+                        <span>Your Pending Games</span>
                         <a href="#" className="float-right badge" onClick={this.onCreateGameClick} id="create_game">Start a New Game</a>
                     </div>
                     <div className="panel-body">

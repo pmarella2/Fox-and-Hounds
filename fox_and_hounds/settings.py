@@ -30,10 +30,12 @@ INSTALLED_APPS = [
     "sslserver",
     "django_otp",
     "django_otp.plugins.otp_totp",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     "fox_and_hounds.middleware.RestrictStaffToAdminMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django_session_timeout.middleware.SessionTimeoutMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -47,6 +49,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "fox_and_hounds.urls"
+
+CORS_ORIGIN_WHITELIST = [
+    "https://ab9c6c79.ngrok.io"
+]
 
 TEMPLATES = [
     {
@@ -73,7 +79,7 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-"""
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "asgiref.inmemory.ChannelLayer",
@@ -89,7 +95,7 @@ CHANNEL_LAYERS = {
         "symmetric_encryption_keys": [SECRET_KEY],
     },
 }
-
+"""
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -101,9 +107,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 OTP_TOTP_ISSUER = "Fox and Hounds"
 
-SESSION_EXPIRE_SECONDS = 240
+SESSION_EXPIRE_SECONDS = 300
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
-SESSION_TIMEOUT_REDIRECT = "game-home"
+SESSION_TIMEOUT_REDIRECT = "home"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
@@ -125,8 +131,7 @@ EMAIL_HOST_PASSWORD = os.environ.get("GMAIL_PASS")
 
 CSP_DEFAULT_SRC = (
     "'self'",
-    "https://o374711.ingest.sentry.io",
-    "ws://localhost:8080",
+    "https://o374711.ingest.sentry.io/",
 )
 CSP_STYLE_SRC = (
     "'self'",
