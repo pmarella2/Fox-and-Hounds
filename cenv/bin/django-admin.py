@@ -1,4 +1,4 @@
-#!/Users/pmarella/Documents/fox-and-hounds/cenv/bin/python
+#!/Users/pmarella/Documents/GitHub/Fox-and-Hounds/cenv/bin/python
 from django.core import management
 
 if __name__ == "__main__":

@@ -46,7 +46,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV='/Users/pmarella/Documents/fox-and-hounds/cenv'
+VIRTUAL_ENV='/Users/pmarella/Documents/GitHub/Fox-and-Hounds/cenv'
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
