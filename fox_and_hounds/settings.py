@@ -167,6 +167,7 @@ CSP_SCRIPT_SRC = (
 )
 CSP_IMG_SRC = ("'self'",)
 CSP_FONT_SRC = ("'self'",)
+CSP_FRAME_ANCESTORS = ("'self'",)
 
 LOGGING = {
     "version": 1,
