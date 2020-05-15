@@ -1,5 +1,4 @@
 # Fox and Hounds: A Board Game
-
 [![CircleCI](https://circleci.com/gh/pmarella2/Fox-and-Hounds.svg?style=svg)](https://circleci.com/gh/pmarella2/Fox-and-Hounds) - [![DeepSource](https://static.deepsource.io/deepsource-badge-dark-mini.svg)](https://deepsource.io/gh/pmarella2/Fox-and-Hounds/?ref=repository-badge)
 
 ## **Description:**
@@ -16,7 +15,7 @@ The hounds can only move diagonally forward one square. The fox can move diagona
 
 ### **Operating System**:
 Ubuntu 16.xx or higher
-or
+OR
 MacOS
 
 ### **Packages**:
