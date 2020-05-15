@@ -13,6 +13,7 @@ The hounds can only move diagonally forward one square. The fox can move diagona
 
 ### **Operating System**:
 Ubuntu 16.xx or higher
+
 MacOS
 
 ### **Packages**:
