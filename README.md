@@ -1,5 +1,5 @@
 # Fox and Hounds: A Board Game
-[![CircleCI](https://circleci.com/gh/pmarella2/Fox-and-Hounds.svg?style=svg)](https://circleci.com/gh/pmarella2/Fox-and-Hounds) - [![DeepSource](https://static.deepsource.io/deepsource-badge-dark-mini.svg)](https://deepsource.io/gh/pmarella2/Fox-and-Hounds/?ref=repository-badge)
+[![CircleCI](https://circleci.com/gh/pmarella2/Fox-and-Hounds.svg?style=svg)](https://circleci.com/gh/pmarella2/Fox-and-Hounds)        [![DeepSource](https://static.deepsource.io/deepsource-badge-dark-mini.svg)](https://deepsource.io/gh/pmarella2/Fox-and-Hounds/?ref=repository-badge)
 
 ## **Description:**
 Fox and Hounds is played on an 8×8 chess/checkerboard and only the dark squares are used (in our case the grass aka green squares). The four hounds are initially placed on the dark squares at one end of the board; the fox is placed on any dark square on the opposite end. The objective of the fox is to cross from one side of the board to the other, arriving at any one of the hounds' original squares. The hounds' objective is to prevent the fox from doing so by trapping it.
