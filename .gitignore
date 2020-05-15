@@ -131,3 +131,5 @@ server.pem
 server.key
 node_modules
 *.rdb
+
+db.sqlite3
