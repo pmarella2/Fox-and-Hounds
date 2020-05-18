@@ -14,8 +14,7 @@ The hounds can only move diagonally forward one square. The fox can move diagona
 ## **Requirements for setting up and running a local copy of the game:**
 
 ### **Operating System**:
-Ubuntu 16.xx or higher
-\n
+Ubuntu 16.xx or higher<br>
 MacOS
 
 ### **Packages**:
