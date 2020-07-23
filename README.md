@@ -63,7 +63,8 @@ export SECRET_KEY=”your generated secret key”
 python manage.py makemigrations
 python manage.py migrate
 ```
-Open five new terminals in the project directory and activate the virtual environments in them
+Open five new terminals in the project directory and activate the virtual environments in them.
+
 7. Run one of each of these commands in a separate terminal
 ```bash
 redis-server
