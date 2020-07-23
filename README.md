@@ -75,7 +75,7 @@ python manage.py runworker
 ```
 You can create your own self-signed certificates for localhost following this guide: https://deliciousbrains.com/ssl-certificate-authority-for-local-https-development/
 
-### **Interacting with the game web appliccation**:
+### **Interacting with the game web application**:
 1. You can now play the game by navigating to *localhost:8080* in your browser of choice
 2. Players need to first select the game piece they want to move and then select a valid free square they want to move that piece to. If the player chooses an invalid move, nothing happens and the game waits until he makes a valid move.
 
