@@ -10,7 +10,7 @@ cffi==1.14.0
 channels @ git+https://github.com/pmarella2/channels.git@b61d2ef45975eb83b6706f99f5f7fa498a9f866e
 chardet==3.0.4
 click==7.1.2
-cryptography==2.9.2
+cryptography==3.2
 daphne==0.15.0
 Django==2.2.13
 django-admin-honeypot==1.1.0
