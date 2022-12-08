@@ -5,7 +5,7 @@ attrs==19.3.0
 autobahn==0.16.0
 autopep8==1.2.4
 black==19.10b0
-certifi==2020.4.5.1
+certifi==2022.12.7
 cffi==1.14.0
 channels @ git+https://github.com/pmarella2/channels.git@b61d2ef45975eb83b6706f99f5f7fa498a9f866e
 chardet==3.0.4
